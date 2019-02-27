@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Card from '../cards/Card'
 import CardContainer from '../cards/CardContainer'
@@ -10,41 +10,39 @@ const Grid = styled.section`
   padding: 12px;
 `
 
-export default class CreatePage extends Component {
-  state = {
-    title: '',
-    content: '',
-    tags: '',
+export default function CreatePage(props) {
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [tags, setTags] = useState('')
+
+  function onInputChange(event) {
+    if (event.target.name === 'title') {
+      setTitle(event.target.value)
+    } else if (event.target.name === 'content') {
+      setContent(event.target.value)
+    } else if (event.target.name === 'tags') {
+      setTags(event.target.value)
+    }
   }
 
-  onInputChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    })
-  }
-
-  onSubmit = event => {
+  function onSubmitHandler(event) {
     event.preventDefault()
-    const tags = split(this.state.tags)
-    this.props.onSubmit({ ...this.state, tags })
+    const splitTags = split(tags)
+    props.onSubmit({ title, content, tags: splitTags })
   }
 
-  render() {
-    const { title, content, tags } = this.state
-
-    return (
-      <Grid>
-        <CardContainer>
-          {(title || content || tags) && (
-            <Card
-              title={title || 'No title yet'}
-              content={content || 'No content yet'}
-              tags={split(tags)}
-            />
-          )}
-        </CardContainer>
-        <Form onSubmit={this.onSubmit} onInputChange={this.onInputChange} />
-      </Grid>
-    )
-  }
+  return (
+    <Grid>
+      <CardContainer>
+        {(title || content || tags) && (
+          <Card
+            title={title || 'No title yet'}
+            content={content || 'No content yet'}
+            tags={split(tags)}
+          />
+        )}
+      </CardContainer>
+      <Form onSubmit={onSubmitHandler} onInputChange={onInputChange} />
+    </Grid>
+  )
 }

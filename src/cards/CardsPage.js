@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import Header from '../common/Header'
+import CardContainer from './CardContainer'
 
 import Card from './Card'
 
@@ -8,14 +9,6 @@ const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
   overflow: hidden;
-`
-
-const CardContainer = styled.section`
-  display: grid;
-  align-content: flex-start;
-  grid-gap: 12px;
-  padding: 20px;
-  overflow-y: scroll;
 `
 
 export default class CardsPage extends Component {

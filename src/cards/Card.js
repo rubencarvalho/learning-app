@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const StyledCard = styled.section`
   padding: 18px 18px 0;
@@ -47,34 +47,31 @@ const Bookmark = styled.div`
   }
 `
 
-export default class Card extends Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    bookmarked: PropTypes.bool,
-    onBookmark: PropTypes.func.isRequired,
-  }
+Card.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  bookmarked: PropTypes.bool,
+  onBookmark: PropTypes.func.isRequired,
+}
 
-  static defaultProps = {
-    title: 'No title defined',
-    content: 'No content defined',
-    tags: '',
-  }
+Card.defaultProps = {
+  title: 'No title defined',
+  content: 'No content defined',
+  tags: '',
+}
 
-  renderTag(text, index) {
-    return <Tag key={index}>{text}</Tag>
-  }
+function renderTag(text, index) {
+  return <Tag key={index}>{text}</Tag>
+}
 
-  render() {
-    const { title, content, tags, bookmarked, onBookmark } = this.props
-    return (
-      <StyledCard>
-        {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
-        <h3>{title}</h3>
-        <p>{content}</p>
-        {tags && <TagList>{tags.map(this.renderTag)}</TagList>}
-      </StyledCard>
-    )
-  }
+export default function Card({ title, content, tags, bookmarked, onBookmark }) {
+  return (
+    <StyledCard>
+      {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
+      <h3>{title}</h3>
+      <p>{content}</p>
+      {tags && <TagList>{tags.map(renderTag)}</TagList>}
+    </StyledCard>
+  )
 }

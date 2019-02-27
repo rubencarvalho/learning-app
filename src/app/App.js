@@ -81,7 +81,6 @@ class App extends Component {
 
   render() {
     const { cards } = this.state
-
     return (
       <Router>
         <Grid>
