@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Filter from './Filter'
 import styled from 'styled-components'
 
@@ -12,28 +12,15 @@ const Title = styled.div`
   color: white;
   text-transform: uppercase;
 `
-export default class Header extends Component {
-  state = {
-    tags: ['html', 'css', 'js', 'shell'],
-    activeTag: 'html',
-  }
+export default function Header() {
+  const tags = ['html', 'css', 'js', 'shell']
 
-  setFilter = tag => {
-    this.setState({
-      activeTag: tag,
-    })
-  }
+  const [activeTag, setActiveTag] = useState('html')
 
-  render() {
-    return (
-      <header>
-        <Title>{this.state.activeTag}</Title>
-        <Filter
-          items={this.state.tags}
-          active={this.state.activeTag}
-          onClick={this.setFilter}
-        />
-      </header>
-    )
-  }
+  return (
+    <header>
+      <Title>{activeTag}</Title>
+      <Filter items={tags} active={activeTag} onClick={setActiveTag} />
+    </header>
+  )
 }
