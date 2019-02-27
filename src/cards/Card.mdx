@@ -1,0 +1,19 @@
+---
+name: Card
+menu: Components
+---
+
+# Card
+
+import Card from './Card'
+import { Playground, PropsTable } from 'docz'
+
+<PropsTable of={Card} />
+
+<Playground>
+  <Card title="My title" content="My Content" tags={['one', 'two', 'three']} />
+</Playground>
+
+<Playground>
+  <Card title="without tags" content="My Content" />
+</Playground>
