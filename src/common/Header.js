@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Filter from './Filter'
 import styled from 'styled-components'
+import Filter from './Filter'
 
 const Title = styled.div`
   display: flex;

@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
 const Grid = styled.section`
   display: grid;
@@ -20,29 +19,18 @@ const Link = styled.div`
   text-transform: uppercase;
 `
 
-export default class Filter extends Component {
-  static propTypes = {
-    items: PropTypes.array,
-    active: PropTypes.bool,
-    onClick: PropTypes.func,
-  }
-
-  static defaultProps = {}
-
-  render() {
-    const { items, active, onClick } = this.props
-    return (
-      <Grid>
-        {items.map(item => (
-          <Link
-            key={item}
-            isActive={item === active}
-            onClick={() => onClick(item)}
-          >
-            {item}
-          </Link>
-        ))}
-      </Grid>
-    )
-  }
+export default function Filter({ items, active, onClick }) {
+  return (
+    <Grid>
+      {items.map(item => (
+        <Link
+          key={item}
+          isActive={item === active}
+          onClick={() => onClick(item)}
+        >
+          {item}
+        </Link>
+      ))}
+    </Grid>
+  )
 }
