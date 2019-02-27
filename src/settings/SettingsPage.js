@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class SettingsPage extends Component {
-  render() {
-    return <section>Settings</section>
-  }
+export default function SettingsPage() {
+  return <section>Settings</section>
 }
