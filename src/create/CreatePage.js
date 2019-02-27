@@ -3,16 +3,11 @@ import styled from 'styled-components'
 import Card from '../cards/Card'
 import CardContainer from '../cards/CardContainer'
 import { split } from '../utils'
+import Form from './Form'
 const Grid = styled.section`
   display: grid;
   align-content: flex-end;
   padding: 12px;
-`
-
-const StyledForm = styled.form`
-  display: grid;
-  grid-gap: 12px;
-  grid-template-rows: 40px 60px 40px 48px;
 `
 
 export default class CreatePage extends Component {
@@ -48,28 +43,7 @@ export default class CreatePage extends Component {
             />
           )}
         </CardContainer>
-        <StyledForm onSubmit={this.onSubmit}>
-          <input
-            onChange={this.onInputChange}
-            type="text"
-            placeholder="Title"
-            name="title"
-          />
-          <textarea
-            onChange={this.onInputChange}
-            placeholder="Content"
-            name="content"
-            cols="30"
-            rows="10"
-          />
-          <input
-            onChange={this.onInputChange}
-            type="text"
-            placeholder="Tags"
-            name="tags"
-          />
-          <button>Create</button>
-        </StyledForm>
+        <Form onSubmit={this.onSubmit} onInputChange={this.onInputChange} />
       </Grid>
     )
   }
