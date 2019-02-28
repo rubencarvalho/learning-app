@@ -52,7 +52,7 @@ Card.propTypes = {
   content: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string),
   bookmarked: PropTypes.bool,
-  onBookmark: PropTypes.func.isRequired,
+  onBookmark: PropTypes.func,
 }
 
 Card.defaultProps = {

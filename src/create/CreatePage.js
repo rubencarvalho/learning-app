@@ -29,6 +29,9 @@ export default function CreatePage(props) {
     event.preventDefault()
     const splitTags = split(tags)
     props.onSubmit({ title, content, tags: splitTags })
+    setTitle('')
+    setContent('')
+    setTags('')
   }
 
   return (
@@ -42,7 +45,11 @@ export default function CreatePage(props) {
           />
         )}
       </CardContainer>
-      <Form onSubmit={onSubmitHandler} onInputChange={onInputChange} />
+      <Form
+        data={{ title, content, tags }}
+        onSubmit={onSubmitHandler}
+        onInputChange={onInputChange}
+      />
     </Grid>
   )
 }

@@ -12,15 +12,13 @@ const Title = styled.div`
   color: white;
   text-transform: uppercase;
 `
-export default function Header() {
-  const tags = ['html', 'css', 'js', 'shell']
-
-  const [activeTag, setActiveTag] = useState('html')
+export default function Header({ tags, setActiveTag, activeTag }) {
+  tags = ['all', ...tags]
 
   return (
     <header>
       <Title>{activeTag}</Title>
-      <Filter items={tags} active={activeTag} onClick={setActiveTag} />
+      <Filter tags={tags} activeTag={activeTag} onClick={setActiveTag} />
     </header>
   )
 }

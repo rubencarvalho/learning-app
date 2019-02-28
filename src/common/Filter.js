@@ -19,16 +19,16 @@ const Link = styled.div`
   text-transform: uppercase;
 `
 
-export default function Filter({ items, active, onClick }) {
+export default function Filter({ tags, activeTag, onClick }) {
   return (
     <Grid>
-      {items.map(item => (
+      {tags.map(tag => (
         <Link
-          key={item}
-          isActive={item === active}
-          onClick={() => onClick(item)}
+          key={tag}
+          isActive={tag === activeTag}
+          onClick={() => onClick(tag)}
         >
-          {item}
+          {tag}
         </Link>
       ))}
     </Grid>

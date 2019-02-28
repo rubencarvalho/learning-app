@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from '../common/Header'
-import CardContainer from './CardContainer'
-
 import Card from './Card'
+import CardContainer from './CardContainer'
 
 const PageGrid = styled.div`
   display: grid;
@@ -11,22 +10,33 @@ const PageGrid = styled.div`
   overflow: hidden;
 `
 
-export default class CardsPage extends Component {
-  render() {
-    const { onBookmark } = this.props
-    return (
-      <PageGrid>
-        <Header />
-        <CardContainer>
-          {this.props.cards.map(card => (
+export default function CardsPage({ onBookmark, cards }) {
+  const [activeTag, setActiveTag] = useState('all')
+
+  const tags = cards.reduce((prev, card) => {
+    const newTags = card.tags.filter(tag => !prev.includes(tag))
+
+    return [...prev, ...newTags]
+  }, [])
+
+  return (
+    <PageGrid>
+      <Header
+        tags={tags}
+        setActiveTag={tag => setActiveTag(tag)}
+        activeTag={activeTag}
+      />
+      <CardContainer>
+        {cards
+          .filter(card => activeTag === 'all' || card.tags.includes(activeTag))
+          .map(card => (
             <Card
               {...card}
               key={card._id}
               onBookmark={() => onBookmark(card)}
             />
           ))}
-        </CardContainer>
-      </PageGrid>
-    )
-  }
+      </CardContainer>
+    </PageGrid>
+  )
 }

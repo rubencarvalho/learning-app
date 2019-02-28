@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
-import Create from '../create/CreatePage'
 import Cards from '../cards/CardsPage'
-import Settings from '../settings/SettingsPage'
+import Create from '../create/CreatePage'
 import {
   getAllCards,
   getCardsFromStorage,
@@ -11,6 +10,7 @@ import {
   saveCardsToStorage,
   toggleCardBookmark,
 } from '../services'
+import Settings from '../settings/SettingsPage'
 import GlobalStyle from './GlobalStyle'
 
 const Grid = styled.div`
@@ -38,86 +38,67 @@ const StyledLink = styled(NavLink)`
   }
 `
 
-class App extends Component {
-  state = {
-    cards: getCardsFromStorage(),
-  }
+export default function App() {
+  const [cards, setCards] = useState(getCardsFromStorage())
 
-  componentDidMount() {
+  useEffect(() => {
     getAllCards().then(res => {
-      this.setState({
-        cards: res.data,
-      })
+      setCards(res.data)
     })
-  }
+  })
 
-  componentDidUpdate() {
-    saveCardsToStorage(this.state.cards)
-  }
+  useEffect(() => {
+    saveCardsToStorage(cards)
+  }, [cards])
 
-  createCard = data => {
+  function createCard(data) {
     postNewCard(data).then(res => {
-      this.setState({
-        cards: [...this.state.cards, res.data],
-      })
+      setCards([...cards, res.data])
     })
   }
 
-  toggleBookmark = card => {
+  function toggleBookmark(card) {
     toggleCardBookmark(card)
       .then(res => {
-        const { cards } = this.state
         const index = cards.indexOf(card)
-        this.setState({
-          cards: [
-            ...cards.slice(0, index),
-            { ...res.data },
-            ...cards.slice(index + 1),
-          ],
-        })
+        setCards([
+          ...cards.slice(0, index),
+          { ...res.data },
+          ...cards.slice(index + 1),
+        ])
       })
       .catch(err => console.log(err))
   }
 
-  render() {
-    const { cards } = this.state
-    return (
-      <Router>
-        <Grid>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Cards cards={cards} onBookmark={this.toggleBookmark} />
-            )}
-          />
-          <Route
-            path="/create"
-            render={() => <Create onSubmit={this.createCard} />}
-          />
-          <Route
-            path="/bookmarks"
-            render={() => (
-              <Cards
-                cards={cards.filter(card => card.bookmarked)}
-                onBookmark={this.toggleBookmark}
-              />
-            )}
-          />
-          <Route path="/settings" component={Settings} />
-          <Nav>
-            <StyledLink exact to="/">
-              Home
-            </StyledLink>
-            <StyledLink to="/bookmarks">Bookmarks</StyledLink>
-            <StyledLink to="/create">Create</StyledLink>
-            <StyledLink to="/settings">Settings</StyledLink>
-          </Nav>
-          <GlobalStyle />
-        </Grid>
-      </Router>
-    )
-  }
+  return (
+    <Router>
+      <Grid>
+        <Route
+          exact
+          path="/"
+          render={() => <Cards cards={cards} onBookmark={toggleBookmark} />}
+        />
+        <Route path="/create" render={() => <Create onSubmit={createCard} />} />
+        <Route
+          path="/bookmarks"
+          render={() => (
+            <Cards
+              cards={cards.filter(card => card.bookmarked)}
+              onBookmark={toggleBookmark}
+            />
+          )}
+        />
+        <Route path="/settings" component={Settings} />
+        <Nav>
+          <StyledLink exact to="/">
+            Home
+          </StyledLink>
+          <StyledLink to="/bookmarks">Bookmarks</StyledLink>
+          <StyledLink to="/create">Create</StyledLink>
+          <StyledLink to="/settings">Settings</StyledLink>
+        </Nav>
+        <GlobalStyle />
+      </Grid>
+    </Router>
+  )
 }
-
-export default App
